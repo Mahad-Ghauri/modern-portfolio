@@ -1,10 +1,17 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { Github, Linkedin, Mail, Download } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export default function HeroSection() {
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -23,18 +30,28 @@ export default function HeroSection() {
       opacity: 1,
       transition: {
         duration: 0.8,
-        ease: "easeOut",
+        ease: "easeOut" as const,
       },
     },
   }
 
+  const handleDownload = () => {
+    const link = document.createElement("a")
+    link.href = "/resume/mahad-ghauri-resume.pdf"
+    link.download = "Mahad-Ghauri-Resume.pdf"
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
+  if (!isMounted) return null // 👈 This avoids hydration mismatch
+
   return (
     <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-pink-900/20"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-pink-900/20" />
 
-      {/* Hero glow effects */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full filter blur-[100px] animate-pulse"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full filter blur-[100px] animate-pulse delay-700"></div>
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full filter blur-[100px] animate-pulse" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full filter blur-[100px] animate-pulse delay-700" />
 
       <motion.div
         variants={containerVariants}
@@ -44,8 +61,8 @@ export default function HeroSection() {
       >
         <motion.div variants={itemVariants} className="mb-8">
           <div className="w-48 h-48 mx-auto mb-8 relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full animate-pulse"></div>
-            <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full filter blur-md animate-pulse"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full animate-pulse" />
+            <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full filter blur-md animate-pulse" />
             <img
               src="/images/profile.jpg"
               alt="Muhammad Mahad Ghauri"
@@ -73,14 +90,7 @@ export default function HeroSection() {
           <Button
             size="lg"
             className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white border-0 transform hover:scale-105 transition-all duration-300 shadow-[0_0_15px_rgba(139,92,246,0.3)]"
-            onClick={() => {
-              const link = document.createElement("a")
-              link.href = "/resume/mahad-ghauri-resume.pdf"
-              link.download = "Mahad-Ghauri-Resume.pdf"
-              document.body.appendChild(link)
-              link.click()
-              document.body.removeChild(link)
-            }}
+            onClick={handleDownload}
           >
             <Download className="w-5 h-5 mr-2" />
             Download Resume
@@ -119,7 +129,7 @@ export default function HeroSection() {
 
         <motion.div variants={itemVariants} className="animate-bounce">
           <div className="w-6 h-10 border-2 border-gray-400 rounded-full mx-auto shadow-[0_0_10px_rgba(255,255,255,0.1)]">
-            <div className="w-1 h-3 bg-gray-400 rounded-full mx-auto mt-2 animate-pulse"></div>
+            <div className="w-1 h-3 bg-gray-400 rounded-full mx-auto mt-2 animate-pulse" />
           </div>
         </motion.div>
       </motion.div>
